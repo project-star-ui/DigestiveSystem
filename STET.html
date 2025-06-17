@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Student Expenses Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #8fbcff 0%, #e0ecff 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    user-select: none;
+    transition: background 0.5s ease;
+  }
+
+  #app-container {
+    background: var(--background-light);
+    width: 100%;
+    max-width: 480px;
+    border-radius: 24px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transition: background 0.5s ease;
+  }
+
+  /* Default theme variables */
+  :root {
+    --primary-color: #ff6f61;
+    --secondary-color: #ffca3a;
+    --accent-color: #8ac926;
+    --background-light: #fff3e0;
+    --text-dark: #333;
+    --text-light: #fff;
+    --shadow-color: rgba(255,111,97,0.3);
+  }
+
+
+  /* Theme variants */
+  body.theme-1 { /* default red-orange-yellow */
+    background: linear-gradient(135deg, #8fbcff 0%, #e0ecff 100%);
+  }
+  body.theme-2 {
+    --primary-color: #4b8bbe;
+    --secondary-color: #95d6f0;
+    --accent-color: #f49ac2;
+    --background-light: #e3f6fc;
+    --text-dark: #203148;
+    --text-light: #ffffff;
+    --shadow-color: rgba(75,139,190,0.3);
+    background: linear-gradient(135deg, #c9f0f8 0%, #efefff 100%);
+  }
+  body.theme-3 {
+    --primary-color: #fa8072;
+    --secondary-color: #fce38a;
+    --accent-color: #6ab04c;
+    --background-light: #fff9e9;
+    --text-dark: #363636;
+    --text-light: #ffffff;
+    --shadow-color: rgba(250,128,114,0.3);
+    background: linear-gradient(135deg, #f8eee3 0%, #fff9db 100%);
+  }
+  body.theme-4 {
+    --primary-color: #ff7f50;
+    --secondary-color: #ffdeb2;
+    --accent-color: #6bc7c6;
+    --background-light: #fff8f0;
+    --text-dark: #4a3933;
+    --text-light: #ffffff;
+    --shadow-color: rgba(255,127,80,0.3);
+    background: linear-gradient(135deg, #fff1e6 0%, #fff9f5 100%);
+  }
+  body.theme-5 {
+    --primary-color: #f49ac2;
+    --secondary-color: #b4f8c8;
+    --accent-color: #fbd1a2;
+    --background-light: #fffefa;
+    --text-dark: #564a48;
+    --text-light: #ffffff;
+    --shadow-color: rgba(244,154,194,0.3);
+    background: linear-gradient(135deg, #ffeafd 0%, #fffefa 100%);
+  }
+
+  /* Typography - playful */
+  h1, h2, h3 {
+    font-family: 'Comic Neue', cursive;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  h1 {
+    font-size: 2.75rem;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 1.75rem;
+  }
+  h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  label {
+    font-weight: 600;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+  }
+  p {
+    color: var(--text-dark);
+    margin-top: 0;
+  }
+
+  /* Inputs and buttons childish style */
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"] {
+    width: 100%;
+    border: 2px solid var(--accent-color);
+    border-radius: 14px;
+    padding: 10px 12px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.3s ease;
+  }
+  input[type="text"]:focus,
+  input[type="password"]:focus,
+  input[type="number"]:focus,
+  input[type="date"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+  }
+  button {
+    background: var(--primary-color);
+    border: none;
+    border-radius: 16px;
+    color: var(--text-light);
+    font-weight: 700;
+    padding: 12px 0;
+    width: 100%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 8px 16px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    user-select: none;
+  }
+  button:hover,
+  button:focus {
+    background: #ff594d;
+    box-shadow: 0 12px 20px rgba(255,89,77,0.5);
+    transform: scale(1.05);
+    outline: none;
+  }
+
+  /* Hide views initially */
+  .view {
+    display: none;
+  }
+  .view.active {
+    display: block;
+  }
+
+  /* Login & Signup forms */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Tracker view styling */
+  #tracker-header {
+    font-size: 2rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  /* Smart card */
+  .smart-card {
+    background: var(--secondary-color);
+    padding: 16px 20px;
+    border-radius: 24px;
+    color: #333;
+    box-shadow: 0 8px 12px rgba(255,202,58,0.4);
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  .smart-card strong {
+    color: var(--primary-color);
+  }
+
+  /* Date picker section */
+  #date-section {
+    margin-top: 24px;
+  }
+  #date-section label {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    color: var(--accent-color);
+  }
+  input[type="date"] {
+    cursor: pointer;
+  }
+
+  /* Allowance input */
+  #allowance-section {
+    margin-top: 20px;
+  }
+  #allowance-label {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    color: var(--accent-color);
+  }
+  #allowance-input {
+    width: 100%;
+  }
+  #allowance-display {
+    margin-top: 6px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    text-align: center;
+  }
+
+  /* Expenses inputs container */
+  #expenses-inputs {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .expense-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .expense-row label {
+    flex: 1 1 50%;
+    color: var(--accent-color);
+    font-weight: 700;
+  }
+  .expense-row input[type="number"] {
+    flex: 1 1 50%;
+  }
+
+  /* Add other expenses */
+  #other-expense-add {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  #other-expense-add input[type="text"], #other-expense-add input[type="number"] {
+    flex: 1;
+  }
+  #add-other-expense-btn {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 32px;
+    line-height: 32px;
+    padding: 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    background: var(--accent-color);
+    color: #333;
+    transition: background-color 0.3s ease;
+  }
+  #add-other-expense-btn:hover {
+    background: #a3d44d;
+    cursor: pointer;
+  }
+  #add-other-expense-btn:focus {
+    outline: 2px solid var(--primary-color);
+  }
+
+  /* Expenses table */
+  #expenses-table-section {
+    margin-top: 28px;
+  }
+  #expenses-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(255,111,97,0.2);
+  }
+  #expenses-table thead tr {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 700;
+    text-align: left;
+  }
+  #expenses-table th,
+  #expenses-table td {
+    padding: 12px 14px;
+  }
+  #expenses-table tbody tr:nth-child(odd){
+    background: #fff1e6;
+  }
+  #expenses-table tbody tr:hover {
+    background: #ffded6;
+    cursor: default;
+  }
+  #total-row {
+    font-weight: 700;
+    background: var(--accent-color);
+    color: #3c3c3c;
+  }
+  #savings-row {
+    font-weight: 700;
+    background: var(--primary-color);
+    color: white;
+  }
+  #remaining-row {
+    font-weight: 700;
+    background: #ffb199;
+    color: #3c3c3c;
+  }
+
+  /* Motivational message */
+  #motivational-message {
+    margin-top: 24px;
+    background: var(--accent-color);
+    color: #2d2d2d;
+    border-radius: 20px;
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(138,201,38,0.6);
+    user-select: none;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: background 0.5s ease, color 0.5s ease;
+  }
+  #motivational-message.success {
+    background: #8ac926;
+    color: #1b3000;
+  }
+  #motivational-message.encourage {
+    background: #ffca3a;
+    color: #442f00;
+  }
+
+  /* Theme picker styles */
+  #theme-picker {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .theme-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+  .theme-circle:hover,
+  .theme-circle:focus {
+    border-color: var(--primary-color);
+    outline: none;
+  }
+  .theme-1-circle {
+    background: radial-gradient(circle at center, #ff6f61, #ffca3a);
+  }
+  .theme-2-circle {
+    background: radial-gradient(circle at center, #4b8bbe, #f49ac2);
+  }
+  .theme-3-circle {
+    background: radial-gradient(circle at center, #fa8072, #6ab04c);
+  }
+  .theme-4-circle {
+    background: radial-gradient(circle at center, #ff7f50, #6bc7c6);
+  }
+  .theme-5-circle {
+    background: radial-gradient(circle at center, #f49ac2, #b4f8c8);
+  }
+
+  /* Responsive for small screens */
+  @media (max-width: 480px) {
+    #app-container {
+      max-width: 100%;
+      padding: 20px 16px;
+    }
+    .expense-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .expense-row label,
+    .expense-row input[type="number"] {
+      flex: none;
+      width: 100%;
+    }
+    #other-expense-add {
+      flex-direction: column;
+    }
+    #other-expense-add input,
+    #add-other-expense-btn {
+      width: 100%;
+      height: 45px;
+    }
+    #add-other-expense-btn {
+      border-radius: 12px;
+      font-size: 24px;
+    }
+    #theme-picker {
+      gap: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="app-container" role="main" aria-live="polite">
+
+  <!-- Login view -->
+  <section id="login-view" class="view active" aria-label="Login form">
+    <h1>Student Expenses Tracker</h1>
+    <form id="login-form" aria-describedby="login-instruction" novalidate>
+      <p id="login-instruction" style="color:var(--primary-color); font-weight:600;">Welcome back! Please login.</p>
+      <label for="login-username">Username</label>
+      <input type="text" id="login-username" name="login-username" autocomplete="username" required aria-required="true" aria-describedby="login-username-desc" />
+      <span id="login-username-desc" class="sr-only">Enter your username</span>
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" name="login-password" autocomplete="current-password" required aria-required="true" aria-describedby="login-password-desc" />
+      <span id="login-password-desc" class="sr-only">Enter your password</span>
+      <button type="submit" aria-label="Login to your account">Login</button>
+      <p style="text-align:center; margin-top:12px; font-size:0.9rem; color:#555;">Don't have an account? <button id="show-signup" type="button" style="color:var(--primary-color); background:none; border:none; font-weight:700; cursor:pointer;">Sign up here</button></p>
+    </form>
+  </section>
+
+  <!-- Signup view -->
+  <section id="signup-view" class="view" aria-label="Signup form">
+    <h1>Sign Up</h1>
+    <form id="signup-form" aria-describedby="signup-instruction" novalidate>
+      <p id="signup-instruction" style="color:var(--primary-color); font-weight:600;">Create your student account.</p>
+      <label for="signup-nickname">Nickname</label>
+      <input type="text" id="signup-nickname" name="signup-nickname" required aria-required="true" aria-describedby="signup-nickname-desc" />
+      <span id="signup-nickname-desc" class="sr-only">Enter a nickname for yourself</span>
+      <label for="signup-username">Username</label>
+      <input type="text" id="signup-username" name="signup-username" required aria-required="true" aria-describedby="signup-username-desc" />
+      <span id="signup-username-desc" class="sr-only">Enter username</span>
+      <label for="signup-password">Password</label>
+      <input type="password" id="signup-password" name="signup-password" required aria-required="true" aria-describedby="signup-password-desc" />
+      <span id="signup-password-desc" class="sr-only">Enter password</span>
+      <button type="submit" aria-label="Create a new account">Sign Up</button>
+      <p style="text-align:center; margin-top:12px; font-size:0.9rem; color:#555;">Already have an account? <button id="show-login" type="button" style="color:var(--primary-color); background:none; border:none; font-weight:700; cursor:pointer;">Login here</button></p>
+    </form>
+  </section>
+
+  <!-- Tracker view -->
+  <section id="tracker-view" class="view" aria-label="Student expenses tracker" tabindex="0">
+    <h1 id="tracker-header">Student Expenses Tracker</h1>
+
+    <!-- Smart money tips card -->
+    <div class="smart-card" role="region" aria-live="polite" aria-label="Money management tips">
+      <p><strong>Smart Money Management Tips</strong> for students to save <strong>at least 10%</strong> of their allowance! Plan your expenses carefully, track daily spending, and keep a small piggy bank for savings. Remember, saving 10% of your allowance helps you build good habits and secure your future!</p>
+    </div>
+
+    <!-- Theme picker moved here -->
+    <div id="theme-picker" aria-label="Select a fun theme" role="radiogroup" tabindex="0">
+      <button type="button" class="theme-circle theme-1-circle" data-theme="theme-1" aria-label="Theme red orange yellow" role="radio" aria-checked="true" tabindex="0"></button>
+      <button type="button" class="theme-circle theme-2-circle" data-theme="theme-2" aria-label="Theme blue pink pastel" role="radio" aria-checked="false" tabindex="-1"></button>
+      <button type="button" class="theme-circle theme-3-circle" data-theme="theme-3" aria-label="Theme salmon green pastel" role="radio" aria-checked="false" tabindex="-1"></button>
+      <button type="button" class="theme-circle theme-4-circle" data-theme="theme-4" aria-label="Theme coral teal pastel" role="radio" aria-checked="false" tabindex="-1"></button>
+      <button type="button" class="theme-circle theme-5-circle" data-theme="theme-5" aria-label="Theme pink green pastel" role="radio" aria-checked="false" tabindex="-1"></button>
+    </div>
+
+    <!-- Date selection -->
+    <div id="date-section">
+      <label for="date-input">Select Date to Track</label>
+      <input type="date" id="date-input" aria-describedby="date-help" />
+      <small id="date-help" style="color: var(--accent-color);">Choose a date to view or edit your expenses for that day.</small>
+    </div>
+
+    <div id="allowance-section">
+      <label for="allowance-input" id="allowance-label">Allowance (₱)</label>
+      <input type="number" id="allowance-input" min="0" step="10" aria-labelledby="allowance-label" aria-valuemin="0" />
+      <div id="allowance-display" aria-live="polite">₱ 0</div>
+    </div>
+
+    <div id="expenses-inputs" aria-live="polite" aria-label="Expenses input form">
+      <div class="expense-row">
+        <label for="expense-transportation">Transportation (₱)</label>
+        <input type="number" id="expense-transportation" min="0" step="1" value="0" aria-labelledby="expense-transportation" />
+      </div>
+      <div class="expense-row">
+        <label for="expense-meal">Meal or Snacks (₱)</label>
+        <input type="number" id="expense-meal" min="0" step="1" value="0" aria-labelledby="expense-meal" />
+      </div>
+
+      <div id="other-expenses-list" aria-label="Other expenses list" role="list"></div>
+
+      <div id="other-expense-add" aria-label="Add other expense category">
+        <input type="text" id="other-expense-name" placeholder="Other expense name" aria-label="Other expense category name" />
+        <input type="number" id="other-expense-amount" placeholder="Amount (₱)" min="0" step="1" aria-label="Other expense amount" />
+        <button id="add-other-expense-btn" type="button" aria-label="Add other expense category">+</button>
+      </div>
+    </div>
+
+    <div id="expenses-table-section" aria-label="Expenses summary">
+      <table id="expenses-table" aria-describedby="table-desc" role="table" tabindex="0">
+        <caption id="table-desc" class="sr-only">Summary of expenses for the selected date</caption>
+        <thead>
+          <tr>
+            <th scope="col">Expense Category</th>
+            <th scope="col">Amount (₱)</th>
+          </tr>
+        </thead>
+        <tbody id="expenses-table-body">
+          <!-- dynamic rows -->
+        </tbody>
+        <tfoot>
+          <tr id="total-row">
+            <td>Total Expenses</td>
+            <td id="total-expenses">₱ 0</td>
+          </tr>
+          <tr id="savings-row">
+            <td>Recommended Savings (10%)</td>
+            <td id="recommended-savings">₱ 0</td>
+          </tr>
+          <tr id="remaining-row">
+            <td>Remaining Allowance</td>
+            <td id="remaining-allowance">₱ 0</td>
+          </tr>
+        </tfoot>
+      </table>
+      <div id="motivational-message" role="alert" aria-live="polite" aria-atomic="true"></div>
+    </div>
+
+    <button id="save-expenses-btn" type="button" aria-label="Save expenses data for selected date">Save Expenses</button>
+    <button id="logout-btn" type="button" aria-label="Logout from the tracker" style="margin-top:16px; background: var(--accent-color); color: #333;">Logout</button>
+  </section>
+
+</div>
+
+<script>
+  (function() {
+    // Elements
+    const loginView = document.getElementById('login-view');
+    const signupView = document.getElementById('signup-view');
+    const trackerView = document.getElementById('tracker-view');
+
+    const showSignupBtn = document.getElementById('show-signup');
+    const showLoginBtn = document.getElementById('show-login');
+
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+
+    const logoutBtn = document.getElementById('logout-btn');
+
+    // Tracker inputs and sections
+    const dateInput = document.getElementById('date-input');
+    const allowanceInput = document.getElementById('allowance-input');
+    const allowanceDisplay = document.getElementById('allowance-display');
+
+    const expenseTransportationInput = document.getElementById('expense-transportation');
+    const expenseMealInput = document.getElementById('expense-meal');
+
+    const otherExpensesList = document.getElementById('other-expenses-list');
+    const otherExpenseNameInput = document.getElementById('other-expense-name');
+    const otherExpenseAmountInput = document.getElementById('other-expense-amount');
+    const addOtherExpenseBtn = document.getElementById('add-other-expense-btn');
+
+    const expensesTableBody = document.getElementById('expenses-table-body');
+    const totalExpensesTd = document.getElementById('total-expenses');
+    const recommendedSavingsTd = document.getElementById('recommended-savings');
+    const remainingAllowanceTd = document.getElementById('remaining-allowance');
+
+    const saveExpensesBtn = document.getElementById('save-expenses-btn');
+    const motivationalMessageDiv = document.getElementById('motivational-message');
+
+    const themePicker = document.getElementById('theme-picker');
+    const themeButtons = themePicker.querySelectorAll('.theme-circle');
+
+    // Internal state
+    let users = [];
+    let currentUser = null;
+    let currentDate = null;
+    let currentExpenses = {
+      transportation: 0,
+      meal: 0,
+      others: [] // {name:string, amount:number}
+    };
+    let allowance = 0;
+
+    // Helpers for localStorage keys
+    const USERS_KEY = 'students-users';
+    const EXPENSES_PREFIX = 'expenses-'; // will be + username
+    const THEME_KEY_PREFIX = 'theme-'; // + username
+
+
+    /* UTILS */
+    function formatPhp(amount) {
+      return '₱ ' + amount.toLocaleString();
+    }
+
+    // Utility functions
+    function showView(view) {
+      loginView.classList.remove('active');
+      signupView.classList.remove('active');
+      trackerView.classList.remove('active');
+      view.classList.add('active');
+      if (view === trackerView) {
+        trackerView.focus();
+      }
+    }
+
+    function loadUsers() {
+      const stored = localStorage.getItem(USERS_KEY);
+      if (stored) {
+        try {
+          users = JSON.parse(stored);
+        } catch(e){
+          users = [];
+        }
+      } else {
+        users = [];
+      }
+    }
+
+    function saveUsers() {
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+
+    function findUserByUsername(username) {
+      return users.find(u => u.username.toLowerCase() === username.toLowerCase());
+    }
+
+    function saveExpensesForUser(username, date, expensesData) {
+      const key = EXPENSES_PREFIX + username;
+      let userData = {};
+      const stored = localStorage.getItem(key);
+      if (stored) {
+        try {
+          userData = JSON.parse(stored);
+        } catch(e) {
+          userData = {};
+        }
+      }
+      userData[date] = expensesData;
+      localStorage.setItem(key, JSON.stringify(userData));
+    }
+
+    function loadExpensesForUser(username, date) {
+      const key = EXPENSES_PREFIX + username;
+      const stored = localStorage.getItem(key);
+      if (!stored) return null;
+      try {
+        const data = JSON.parse(stored);
+        return data[date] || null;
+      } catch(e) {
+        return null;
+      }
+    }
+
+    function saveThemeForUser(username, theme) {
+      if (!username) return;
+      localStorage.setItem(THEME_KEY_PREFIX + username, theme);
+    }
+
+    function loadThemeForUser(username) {
+      if (!username) return null;
+      return localStorage.getItem(THEME_KEY_PREFIX + username);
+    }
+
+    // Clear tracker inputs and state
+    function clearTrackerInputs() {
+      allowanceInput.value = '';
+      allowanceDisplay.textContent = '₱ 0';
+      expenseTransportationInput.value = 0;
+      expenseMealInput.value = 0;
+      currentExpenses.others = [];
+      renderOtherExpenses();
+      renderExpensesTable();
+      motivationalMessageDiv.textContent = '';
+      motivationalMessageDiv.className = '';
+    }
+
+    // Render functions
+    function renderOtherExpenses() {
+      // Clear
+      otherExpensesList.innerHTML = '';
+
+      currentExpenses.others.forEach((expense, idx) => {
+        const div = document.createElement('div');
+        div.className = 'expense-row';
+        div.setAttribute('role', 'listitem');
+
+        const label = document.createElement('label');
+        label.textContent = expense.name + ' (₱)';
+        label.htmlFor = `other-expense-${idx}`;
+        label.style.flex = '1 1 50%';
+        label.style.color = 'var(--accent-color)';
+        label.style.fontWeight = '700';
+
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.min = '0';
+        input.step = '1';
+        input.value = expense.amount;
+        input.id = `other-expense-${idx}`;
+        input.style.flex = '1 1 50%';
+
+        input.addEventListener('input', () => {
+          const v = parseInt(input.value);
+          currentExpenses.others[idx].amount = isNaN(v) || v < 0 ? 0 : v;
+          renderExpensesTable();
+        });
+
+        // Add removal button for other expenses
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.textContent = '×';
+        removeBtn.setAttribute('aria-label', `Remove expense ${expense.name}`);
+        removeBtn.style.marginLeft = '8px';
+        removeBtn.style.background = '#ff6f61';
+        removeBtn.style.color = 'white';
+        removeBtn.style.border = 'none';
+        removeBtn.style.borderRadius = '12px';
+        removeBtn.style.width = '32px';
+        removeBtn.style.height = '32px';
+        removeBtn.style.cursor = 'pointer';
+        removeBtn.style.fontSize = '20px';
+        removeBtn.style.lineHeight = '24px';
+        removeBtn.style.fontWeight = '700';
+        removeBtn.style.userSelect = 'none';
+        removeBtn.style.transition = 'background-color 0.3s ease';
+        removeBtn.addEventListener('mouseenter', () => removeBtn.style.background = '#e64e42');
+        removeBtn.addEventListener('mouseleave', () => removeBtn.style.background = '#ff6f61');
+
+        removeBtn.addEventListener('click', () => {
+          currentExpenses.others.splice(idx,1);
+          renderOtherExpenses();
+          renderExpensesTable();
+        });
+
+        div.appendChild(label);
+        div.appendChild(input);
+        div.appendChild(removeBtn);
+        otherExpensesList.appendChild(div);
+      });
+    }
+
+    function renderExpensesTable() {
+      expensesTableBody.innerHTML = '';
+
+      const rows = [];
+
+      // Fixed expenses
+      rows.push({name: 'Transportation', amount: parseInt(expenseTransportationInput.value) || 0});
+      rows.push({name: 'Meal or Snacks', amount: parseInt(expenseMealInput.value) || 0});
+
+      // Other expenses
+      currentExpenses.others.forEach(e => {
+        rows.push({name: e.name, amount: e.amount});
+      });
+
+      // Add rows to tbody
+      rows.forEach(({name, amount}) => {
+        const tr = document.createElement('tr');
+        const tdName = document.createElement('td');
+        const tdAmount = document.createElement('td');
+        tdName.textContent = name;
+        tdAmount.textContent = formatPhp(amount);
+        tr.appendChild(tdName);
+        tr.appendChild(tdAmount);
+        expensesTableBody.appendChild(tr);
+      });
+
+      // Totals
+      const totalExpenses = rows.reduce((sum, r) => sum + r.amount, 0);
+      totalExpensesTd.textContent = formatPhp(totalExpenses);
+
+      const savingRecommended = Math.floor((allowance * 0.1));
+      recommendedSavingsTd.textContent = formatPhp(savingRecommended);
+
+      // New formula: allowance minus total expenses
+      const remaining = allowance - totalExpenses;
+      remainingAllowanceTd.textContent = formatPhp(remaining >= 0 ? remaining : 0);
+
+      // Show motivational messages
+      showMotivationalMessage(remaining, savingRecommended);
+    }
+
+    // Show motivational message depending on savings achievement
+    function showMotivationalMessage(remainingAllowance, recommendedSavings) {
+      // Clear previous classes
+      motivationalMessageDiv.className = '';
+      motivationalMessageDiv.textContent = '';
+
+      if (allowance === 0) {
+        motivationalMessageDiv.textContent = '';
+        return;
+      }
+      if (remainingAllowance >= recommendedSavings) {
+        // Saved at least 10%
+        motivationalMessageDiv.classList.add('success');
+        motivationalMessageDiv.textContent = `Great job! You saved at least 10% of your allowance. Keep it up for a bright future! 🎉`;
+      } else {
+        // Not enough savings: motivational quote
+        motivationalMessageDiv.classList.add('encourage');
+        motivationalMessageDiv.textContent = `Don't worry! Remember: "A little progress each day adds up to big results." Keep trying and save smart!`;
+      }
+    }
+
+    // Update allowance display
+    function updateAllowanceDisplay() {
+      const val = parseInt(allowanceInput.value);
+      allowance = (isNaN(val) || val < 0) ? 0 : val;
+      allowanceDisplay.textContent = formatPhp(allowance);
+      renderExpensesTable();
+    }
+
+    // Load data into tracker inputs for date and user
+    function loadDataForDate(date) {
+      if (!date || !currentUser) return;
+      const data = loadExpensesForUser(currentUser.username, date);
+      if (data) {
+        allowanceInput.value = data.allowance || 0;
+        allowance = data.allowance || 0;
+        expenseTransportationInput.value = data.transportation || 0;
+        expenseMealInput.value = data.meal || 0;
+        currentExpenses.others = data.others || [];
+      } else {
+        allowanceInput.value = '';
+        allowance = 0;
+        expenseTransportationInput.value = 0;
+        expenseMealInput.value = 0;
+        currentExpenses.others = [];
+      }
+      updateAllowanceDisplay();
+      renderOtherExpenses();
+      renderExpensesTable();
+    }
+
+
+    // Default date input to today and ensure it works
+    function setDateInputToToday() {
+      const today = new Date();
+      // Format yyyy-mm-dd for date input value
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const dateStr = `${yyyy}-${mm}-${dd}`;
+      dateInput.value = dateStr;
+      currentDate = dateStr;
+    }
+
+    // Event handlers
+
+    // Toggle views
+    showSignupBtn.addEventListener('click', () => {
+      showView(signupView);
+      signupForm.reset();
+      signupForm['signup-nickname'].focus();
+    });
+    showLoginBtn.addEventListener('click', () => {
+      showView(loginView);
+      loginForm.reset();
+      loginForm['login-username'].focus();
+    });
+
+    // Signup form submit
+    signupForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const nickname = signupForm['signup-nickname'].value.trim();
+      const username = signupForm['signup-username'].value.trim();
+      const password = signupForm['signup-password'].value;
+
+      if (!nickname || !username || !password) {
+        alert('Please fill all fields.');
+        return;
+      }
+
+      loadUsers();
+      if (findUserByUsername(username)) {
+        alert('Username already exists. Please choose another one.');
+        return;
+      }
+
+      users.push({nickname, username, password});
+      saveUsers();
+      alert('Account created! You can now log in.');
+      signupForm.reset();
+      showView(loginView);
+    });
+
+    // Login form submit
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const username = loginForm['login-username'].value.trim();
+      const password = loginForm['login-password'].value;
+
+      if (!username || !password) {
+        alert('Please fill all fields.');
+        return;
+      }
+
+      loadUsers();
+      const user = findUserByUsername(username);
+      if (!user) {
+        alert('Username not found.');
+        return;
+      }
+      if (user.password !== password) {
+        alert('Incorrect password.');
+        return;
+      }
+
+      currentUser = user;
+      // Set date input to today and load data
+      setDateInputToToday();
+      loadDataForDate(currentDate);
+
+      // Apply user theme if saved
+      const savedTheme = loadThemeForUser(currentUser.username);
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else {
+        setTheme('theme-1'); // default theme
+      }
+
+      showView(trackerView);
+    });
+
+    // Logout
+    logoutBtn.addEventListener('click', () => {
+      currentUser = null;
+      clearTrackerInputs();
+      dateInput.value = '';
+      motivationalMessageDiv.textContent = '';
+      setTheme('theme-1');
+      showView(loginView);
+    });
+
+    // Date changed
+    dateInput.addEventListener('change', () => {
+      const val = dateInput.value;
+      if (!val) return;
+      currentDate = val;
+      loadDataForDate(currentDate);
+    });
+
+    // Allowance changed
+    allowanceInput.addEventListener('input', () => {
+      updateAllowanceDisplay();
+    });
+
+    // Fixed expenses input changed
+    expenseTransportationInput.addEventListener('input', () => {
+      renderExpensesTable();
+    });
+    expenseMealInput.addEventListener('input', () => {
+      renderExpensesTable();
+    });
+
+    // Add other expense category
+    addOtherExpenseBtn.addEventListener('click', () => {
+      const name = otherExpenseNameInput.value.trim();
+      const amountVal = parseInt(otherExpenseAmountInput.value);
+      const amount = isNaN(amountVal) || amountVal < 0 ? 0 : amountVal;
+      if (!name) {
+        alert('Please enter a name for the other expense.');
+        return;
+      }
+      if (currentExpenses.others.some(e => e.name.toLowerCase() === name.toLowerCase())) {
+        alert('This expense category already exists.');
+        return;
+      }
+      currentExpenses.others.push({name, amount});
+      otherExpenseNameInput.value = '';
+      otherExpenseAmountInput.value = '';
+      renderOtherExpenses();
+      renderExpensesTable();
+    });
+
+    // Save expenses
+    saveExpensesBtn.addEventListener('click', () => {
+      if (!currentDate) {
+        alert('Please select a date first.');
+        return;
+      }
+      const transport = parseInt(expenseTransportationInput.value);
+      const meal = parseInt(expenseMealInput.value);
+      if (isNaN(allowance) || allowance < 0) {
+        alert('Please enter a valid allowance.');
+        return;
+      }
+      const dataToSave = {
+        allowance: allowance,
+        transportation: isNaN(transport) || transport < 0 ? 0 : transport,
+        meal: isNaN(meal) || meal < 0 ? 0 : meal,
+        others: currentExpenses.others,
+      };
+      saveExpensesForUser(currentUser.username, currentDate, dataToSave);
+      alert('Expenses saved successfully!');
+    });
+
+    // Theme selection logic
+    function setTheme(themeName) {
+      // Remove previous theme classes from body
+      document.body.classList.remove('theme-1','theme-2','theme-3','theme-4','theme-5');
+      // Add new
+      document.body.classList.add(themeName);
+      // Update aria-checked and tabindex on buttons
+      themeButtons.forEach(button => {
+        if (button.dataset.theme === themeName) {
+          button.setAttribute('aria-checked', 'true');
+          button.tabIndex = 0;
+          button.focus();
+        } else {
+          button.setAttribute('aria-checked', 'false');
+          button.tabIndex = -1;
+        }
+      });
+      // Save for user
+      if(currentUser && currentUser.username){
+        saveThemeForUser(currentUser.username, themeName);
+      }
+    }
+
+    themeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const selectedTheme = button.dataset.theme;
+        setTheme(selectedTheme);
+      });
+      button.addEventListener('keydown', (e) => {
+        let index = Array.from(themeButtons).indexOf(e.target);
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          const nextIndex = (index + 1) % themeButtons.length;
+          themeButtons[nextIndex].focus();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prevIndex = (index - 1 + themeButtons.length) % themeButtons.length;
+          themeButtons[prevIndex].focus();
+        } else if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          const selectedTheme = e.target.dataset.theme;
+          setTheme(selectedTheme);
+        }
+      });
+    });
+
+    // Accessibility: focus visible styles
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Tab') {
+        document.body.classList.add('user-is-tabbing');
+      }
+    });
+    document.addEventListener('mousedown', e => {
+      document.body.classList.remove('user-is-tabbing');
+    });
+
+    // Initialize app
+    loadUsers();
+    showView(loginView);
+
+  })();
+</script>
+<style>
+  /* Accessibility: focus visible */
+  body.user-is-tabbing button:focus,
+  body.user-is-tabbing input:focus {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+  /* Screen reader only */
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0,0,0,0) !important;
+    border: 0 !important;
+  }
+</style>
+</body>
+</html>
+
+
