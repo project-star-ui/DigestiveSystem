@@ -47,6 +47,21 @@
             animation: dash 5s linear forwards;
         }
         
+        .tongue-tooltip {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+            white-space: nowrap;
+        }
+        
         @keyframes dash {
             to {
                 stroke-dashoffset: 0;
@@ -97,7 +112,9 @@
                     <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a9b08a0a-c274-44a9-a7bd-17d4d55e003c.png" alt="Cartoon illustration of a cross-section of a child's mouth showing teeth, tongue, and salivary glands" class="rounded-lg shadow-xl border-8 border-white max-w-full" />
                     <div id="mouth-hotspots" class="absolute inset-0">
                         <div class="tooth-bounce absolute top-10 left-1/4 w-12 h-12 bg-white rounded-sm cursor-pointer" onclick="showInfo('teeth')"></div>
-                        <div class="absolute top-1/2 left-1/2 w-16 h-8 bg-pink-200 rounded-full cursor-pointer" onclick="showInfo('tongue')"></div>
+                        <div class="absolute top-1/2 left-1/2 w-16 h-8 bg-pink-200 rounded-full cursor-pointer" onclick="showInfo('tongue')">
+                            <span class="tongue-tooltip">Click Me!</span>
+                        </div>
                         <div class="absolute bottom-10 left-10 w-6 h-6 bg-blue-100 rounded-full cursor-pointer" onclick="showInfo('glands')"></div>
                     </div>
                 </div>
