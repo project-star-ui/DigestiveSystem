@@ -3,441 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Amazing Digestive System</title>
+    <title>The Amazing Mouth Adventure</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
-        body {
-            font-family: 'Comic Neue', cursive;
-            background-color: #f0f9ff;
-            color: #075985;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
-        .organ-card {
-            transition: transform 0.3s;
-            border-radius: 20px;
-            overflow: hidden;
-            background: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
-        .organ-card:hover {
-            transform: translateY(-5px);
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
         }
-        .nav-tab {
-            transition: all 0.3s;
-            border-bottom: 4px solid #bfdbfe;
+        
+        .pulse {
+            animation: pulse 2s infinite;
         }
-        .nav-tab:hover, .nav-tab.active {
-            border-bottom: 4px solid #3b82f6;
-            background-color: #e1f0fe;
+        
+        .bg-gradient {
+            background: linear-gradient(-45deg, #f8f4e5, #d4d7dd, #e8f4f8, #f0e6f6);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
-        .section-target {
-            scroll-margin-top: 100px;
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .fun-fact {
-            background-color: #ecfdf5;
-            border-left: 4px solid #059669;
+        
+        .tooth-bounce:hover {
+            transform: translateY(-10px);
+            transition: transform 0.3s ease;
         }
-        #systemDiagram {
-            background-image: url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e82c401a-74af-48d9-ab7a-5963597a2300.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            min-height: 300px;
+        
+        .food-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 5s linear forwards;
+        }
+        
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen">
-    <header class="bg-blue-500 text-white py-6 shadow-lg">
-        <div class="container mx-auto px-4">
-            <h1 class="text-4xl font-bold text-center">The Amazing Digestive System!</h1>
-            <p class="text-center text-xl mt-2">Let's explore how your body turns food into energy!</p>
-        </div>
-    </header>
+<body class="bg-gradient min-h-screen font-sans text-gray-800">
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="floating absolute top-20 left-10 w-20 h-20 rounded-full bg-yellow-100 opacity-20"></div>
+        <div class="floating absolute top-1/4 right-20 w-24 h-24 rounded-full bg-blue-100 opacity-20"></div>
+        <div class="floating absolute bottom-1/3 left-1/4 w-16 h-16 rounded-full bg-pink-100 opacity-20"></div>
+        <div class="floating absolute bottom-20 right-1/4 w-20 h-20 rounded-full bg-purple-100 opacity-20"></div>
+        <div class="floating absolute top-1/2 left-1/2 w-12 h-12 rounded-full bg-green-100 opacity-20"></div>
+    </div>
 
-    <nav id="mainNav" class="sticky top-0 bg-white shadow-md z-10">
-        <div class="container mx-auto px-4">
-            <div class="flex overflow-x-auto py-2">
-                <a href="#intro" class="nav-tab px-6 py-4 font-medium rounded-t-lg">Home</a>
-                <a href="#mouth" class="nav-tab px-6 py-4 font-medium rounded-t-lg">Mouth</a>
-                <a href="#esophagus" class="nav-tab px-6 py-4 font-medium rounded-t-lg">Esophagus</a>
-                <a href="#stomach" class="nav-tab px-6 py-4 font-medium rounded-t-lg">Stomach</a>
-                <a href="#smallIntestine" class="nav-tab px-6 py-4 font-medium rounded-t-lg">Small Intestine</a>
-                <a href="#largeIntestine" class="nav-tab px-6 py-4 font-medium rounded-t-lg">Large Intestine</a>
-                <a href="#video" class="nav-tab px-6 py-4 font-medium rounded-t-lg">Video</a>
-                <a href="#quiz" class="nav-tab px-6 py-4 font-medium rounded-t-lg">Quiz</a>
-            </div>
-        </div>
-    </nav>
+    <div class="container mx-auto px-4 py-12 relative z-10">
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-indigo-800 mb-4">The Mouth: Your Body's Food Processor</h1>
+            <p class="text-xl text-gray-600">Let's explore how your amazing mouth starts the journey of digestion!</p>
+        </header>
 
-    <main class="container mx-auto px-4 py-8">
-        <!-- Introduction/Hero Section -->
-        <section id="intro" class="section-target mb-20">
-            <div class="flex flex-col lg:flex-row gap-8 items-center">
+        <section class="mb-20">
+            <div class="flex flex-col lg:flex-row items-center justify-center gap-12 mb-12">
                 <div class="lg:w-1/2">
-                    <h2 class="text-3xl font-bold mb-4">Welcome to the Journey of Food!</h2>
-                    <p class="text-lg mb-6">Did you know the food you eat goes on an amazing adventure through your body? Let's follow a yummy bite of food as it travels through your digestive system!</p>
-                    
-                    <div class="fun-fact p-4 rounded-lg mb-6">
-                        <p class="font-bold text-green-700">Did You Know?</p>
-                        <p>Your small intestine is about 22 feet long - that's as tall as a giraffe!</p>
-                    </div>
-
-                    <button onclick="startAdventure()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-all shadow-lg">
-                        Start The Adventure!
-                    </button>
-                </div>
-                <div class="lg:w-1/2">
-                    <div class="w-full rounded-xl overflow-hidden shadow-lg">
-                        <video poster="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c5989fcc-457d-4720-a7be-813049c47dd7.png" controls class="w-full h-auto">
-                            <source src="videos/digestion.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        <p class="text-center mt-2 text-sm">Watch how food travels through your body!</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Interactive Carousel -->
-        <section class="my-12">
-            <h2 class="text-2xl font-bold mb-6 text-center">Digestive System Parts</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                <a href="#mouth" class="organ-card">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5496221e-2ed0-4010-972d-15b00f604f33.png" alt="Cartoon mouth with smiling lips and teeth chewing food" class="w-full h-32 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold">Mouth</h3>
-                        <p class="text-sm">Where digestion begins</p>
-                    </div>
-                </a>
-                <a href="#esophagus" class="organ-card">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/20aec3b6-4c38-4140-9853-edfc2ca59708.png" alt="Colorful cartoon esophagus tube with food traveling down" class="w-full h-32 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold">Esophagus</h3>
-                        <p class="text-sm">Food tube to stomach</p>
-                    </div>
-                </a>
-                <a href="#stomach" class="organ-card">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e24949d3-3524-42c4-8d8f-97709e937460.png" alt="Happy cartoon stomach with churning food inside" class="w-full h-32 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold">Stomach</h3>
-                        <p class="text-sm">Food mixer and acid bath</p>
-                    </div>
-                </a>
-                <a href="#smallIntestine" class="organ-card">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bb97605b-3231-4e6a-b9c7-b824b042995e.png" alt="Long curly small intestine with smiling faces" class="w-full h-32 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold">Small Intestine</h3>
-                        <p class="text-sm">Nutrient absorber</p>
-                    </div>
-                </a>
-                <a href="#largeIntestine" class="organ-card">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/927fe4ec-6191-4a83-b40a-e64f66974d78.png" alt="Chubby cartoon large intestine on a playground slide" class="w-full h-32 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold">Large Intestine</h3>
-                        <p class="text-sm">Water absorber</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Mouth Section -->
-        <section id="mouth" class="section-target my-20">
-            <div class="flex flex-col lg:flex-row gap-8 items-center">
-                <div class="lg:w-1/2">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e995decd-daeb-4cb2-bb70-92b0be055a12.png" alt="Cheerful cartoon mouth with labeled parts like teeth, tongue, and salivary glands" class="rounded-lg shadow-lg">
-                </div>
-                <div class="lg:w-1/2">
-                    <h2 class="text-3xl font-bold mb-4">The Mouth: Where It All Begins!</h2>
-                    <p class="mb-4">When you take a bite of food, your mouth goes to work right away!</p>
-                    
-                    <ul class="list-disc pl-6 mb-4 space-y-2">
-                        <li><strong>Teeth</strong>: Chop and grind food into little pieces</li>
-                        <li><strong>Tongue</strong>: Moves food around and tastes it</li>
-                        <li><strong>Saliva</strong>: Special spit that makes food slippery</li>
+                    <h2 class="text-3xl font-semibold text-indigo-700 mb-6 pulse">Mouth Anatomy</h2>
+                    <ul class="space-y-4 text-lg">
+                        <li class="flex items-start">
+                            <div class="bg-yellow-200 rounded-full w-8 h-8 flex items-center justify-center mr-4">1</div>
+                            <p><strong>Teeth</strong> - Like little knives and crushers that cut and grind food</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-yellow-200 rounded-full w-8 h-8 flex items-center justify-center mr-4">2</div>
+                            <p><strong>Tongue</strong> - The taste tester and food mover</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-yellow-200 rounded-full w-8 h-8 flex items-center justify-center mr-4">3</div>
+                            <p><strong>Salivary Glands</strong> - Make spit to soften food</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-yellow-200 rounded-full w-8 h-8 flex items-center justify-center mr-4">4</div>
+                            <p><strong>Lips & Cheeks</strong> - Help keep food inside while chewing</p>
+                        </li>
                     </ul>
-                    
-                    <div class="fun-fact p-4 rounded-lg">
-                        <p class="font-bold text-green-700">Fun Fact!</p>
-                        <p>Your mouth makes about 1 to 2 liters of saliva every day - that's a whole bottle of soda!</p>
-                    </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Esophagus Section -->
-        <section id="esophagus" class="section-target my-20">
-            <div class="flex flex-col lg:flex-row-reverse gap-8 items-center">
-                <div class="lg:w-1/2">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ca19e1a5-a6f9-43b6-b7a6-47bf05ffeb91.png" alt="Cartoon esophagus tube with food bits sliding down like a water slide" class="rounded-lg shadow-lg">
-                </div>
-                <div class="lg:w-1/2">
-                    <h2 class="text-3xl font-bold mb-4">The Esophagus: Food's Waterslide!</h2>
-                    <p class="mb-4">After you swallow, food takes a quick ride down the esophagus!</p>
-                    
-                    <ul class="list-disc pl-6 mb-4 space-y-2">
-                        <li><strong>10 inches long</strong> - about as long as your school ruler</li>
-                        <li><strong>Muscles</strong> push food down in waves (like squeezing toothpaste)</li>
-                        <li>Takes just 2-3 seconds to reach your stomach</li>
-                    </ul>
-                    
-                    <div class="fun-fact p-4 rounded-lg">
-                        <p class="font-bold text-green-700">Did You Know?</p>
-                        <p>You can swallow upside down because the esophagus muscles work against gravity!</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Stomach Section -->
-        <section id="stomach" class="section-target my-20">
-            <div class="flex flex-col lg:flex-row gap-8 items-center">
-                <div class="lg:w-1/2">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/924e4aff-15df-451a-b4bf-3232b2c9ee50.png" alt="Cartoon stomach doing the twist dance with bubbles and digesting food" class="rounded-lg shadow-lg">
-                </div>
-                <div class="lg:w-1/2">
-                    <h2 class="text-3xl font-bold mb-4">The Stomach: The Food Mixer!</h2>
-                    <p class="mb-4">Your stomach is like a stretchy food bag with superpowers!</p>
-                    
-                    <ul class="list-disc pl-6 mb-4 space-y-2">
-                        <li><strong>Stretchy muscles</strong> squeeze and mix food</li>
-                        <li><strong>Special juices</strong> break food into smaller pieces</li>
-                        <li>Works for 2-4 hours on each meal</li>
-                        <li>Has a protective lining so it doesn't digest itself!</li>
-                    </ul>
-                    
-                    <button onclick="playStomachSound()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition-all inline-flex items-center">
-                        <span class="mr-2">Hear Stomach Sounds</span>
-                        🔊
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Small Intestine Section -->
-        <section id="smallIntestine" class="section-target my-20">
-            <div class="flex flex-col lg:flex-row-reverse gap-8 items-center">
-                <div class="lg:w-1/2">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/06ad798b-dbcd-4184-a746-798bc76bbfce.png" alt="Long curly cartoon small intestine with little nutrient cars driving into the bloodstream" class="rounded-lg shadow-lg">
-                </div>
-                <div class="lg:w-1/2">
-                    <h2 class="text-3xl font-bold mb-4">Small Intestine: Nutrient Highway!</h2>
-                    <p class="mb-4">This is where all the good stuff from your food gets absorbed!</p>
-                    
-                    <ul class="list-disc pl-6 mb-4 space-y-2">
-                        <li><strong>Super long tube</strong> (22 feet!) curled up in your belly</li>
-                        <li><strong>Tiny villi fingers</strong> grab all the vitamins and nutrients</li>
-                        <li>It takes 3-6 hours for food to travel through</li>
-                        <li>Most digestion happens here</li>
-                    </ul>
-                    
-                    <div class="fun-fact p-4 rounded-lg">
-                        <p class="font-bold text-green-700">Wow!</p>
-                        <p>If you spread out all the villi in your small intestine, they would cover a tennis court!</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Large Intestine Section -->
-        <section id="largeIntestine" class="section-target my-20">
-            <div class="flex flex-col lg:flex-row gap-8 items-center">
-                <div class="lg:w-1/2">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b1a328f9-2470-42b5-b251-34b076521e7f.png" alt="Cartoon large intestine shaped like a happy tube with rainclouds and water drops" class="rounded-lg shadow-lg">
-                </div>
-                <div class="lg:w-1/2">
-                    <h2 class="text-3xl font-bold mb-4">Large Intestine: The Water Saver!</h2>
-                    <p class="mb-4">This is the last stop on our food journey!</p>
-                    
-                    <ul class="list-disc pl-6 mb-4 space-y-2">
-                        <li><strong>Removes water</strong> from leftover food</li>
-                        <li><strong>Home to good bacteria</strong> that help keep you healthy</li>
-                        <li>The last 5 feet of the digestive system</li>
-                        <li>Takes 12-24 hours to do its job</li>
-                    </ul>
-                    
-                    <div class="fun-fact p-4 rounded-lg">
-                        <p class="font-bold text-green-700">Fun Fact!</p>
-                        <p>Your gut has about 100 trillion bacteria - that's 10 times more than all the stars in our galaxy!</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Video Section -->
-        <section id="video" class="section-target my-20">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold mb-6 text-center">Watch The Whole Process!</h2>
-                <div class="bg-blue-50 rounded-xl p-6">
-                    <video poster="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7616117d-e350-4762-92ee-b7fe7efbf10c.png" controls class="w-full h-auto rounded-lg">
-                        <source src="videos/full_process.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="mt-4 text-center">
-                        <p class="font-bold text-blue-700">Learn how food travels from your mouth all the way through!</p>
-                        <p class="text-sm">Includes fun animations and explanations</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Quiz Section -->
-        <section id="quiz" class="section-target my-20">
-            <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
-                <h2 class="text-3xl font-bold mb-6 text-center">Digestive System Quiz</h2>
                 
-                <div class="space-y-6" id="quizQuestions">
-                    <!-- Question 1 -->
-                    <div class="quiz-question p-4 border border-gray-200 rounded-lg">
-                        <p class="font-bold mb-2">1. Where does digestion start?</p>
-                        <div class="space-y-2">
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="radio" name="q1" value="a" class="quiz-option">
-                                <span>Stomach</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="radio" name="q1" value="b" class="quiz-option" data-correct="true">
-                                <span>Mouth</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="radio" name="q1" value="c" class="quiz-option">
-                                <span>Small Intestine</span>
-                            </label>
-                        </div>
+                <div class="lg:w-1/2 relative flex justify-center">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a9b08a0a-c274-44a9-a7bd-17d4d55e003c.png" alt="Cartoon illustration of a cross-section of a child's mouth showing teeth, tongue, and salivary glands" class="rounded-lg shadow-xl border-8 border-white max-w-full" />
+                    <div id="mouth-hotspots" class="absolute inset-0">
+                        <div class="tooth-bounce absolute top-10 left-1/4 w-12 h-12 bg-white rounded-sm cursor-pointer" onclick="showInfo('teeth')"></div>
+                        <div class="absolute top-1/2 left-1/2 w-16 h-8 bg-pink-200 rounded-full cursor-pointer" onclick="showInfo('tongue')"></div>
+                        <div class="absolute bottom-10 left-10 w-6 h-6 bg-blue-100 rounded-full cursor-pointer" onclick="showInfo('glands')"></div>
                     </div>
+                </div>
+            </div>
+            
+            <div id="info-display" class="hidden bg-white rounded-lg p-6 shadow-lg max-w-3xl mx-auto mb-12">
+                <h3 id="info-title" class="text-2xl font-bold text-indigo-800 mb-4"></h3>
+                <p id="info-content" class="text-lg"></p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-3xl font-semibold text-center text-indigo-700 mb-12">How Digestion Starts in Your Mouth</h2>
+            
+            <div class="relative flex justify-center mb-20">
+                <div class="relative w-full max-w-4xl">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/675468e0-f898-4e4c-bc2d-3c8e6964b282.png" alt="Cartoon digestive system illustration focusing on mouth to stomach" class="w-full rounded-lg shadow-lg" />
                     
-                    <!-- Question 2 -->
-                    <div class="quiz-question p-4 border border-gray-200 rounded-lg">
-                        <p class="font-bold mb-2">2. How long is the small intestine?</p>
-                        <div class="space-y-2">
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="radio" name="q2" value="a" class="quiz-option">
-                                <span>5 feet</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="radio" name="q2" value="b" class="quiz-option" data-correct="true">
-                                <span>22 feet</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="radio" name="q2" value="c" class="quiz-option">
-                                <span>2 feet</span>
-                            </label>
+                    <div id="digestion-animation" class="absolute inset-0">
+                        <!-- Floating food elements -->
+                        <div id="floating-food1" class="floating absolute top-10 left-20 w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center cursor-pointer" onclick="animateFood(1)">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/496f0c53-0ba4-48e5-b670-1f7ef26b7afb.png" alt="Cartoon apple slice" class="w-12 h-12" />
                         </div>
-                    </div>
-                    
-                    <!-- Question 3 -->
-                    <div class="quiz-question p-4 border border-gray-200 rounded-lg">
-                        <p class="font-bold mb-2">3. What does the large intestine remove from food?</p>
-                        <div class="space-y-2">
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="radio" name="q3" value="a" class="quiz-option">
-                                <span>Nutrients</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="radio" name="q3" value="b" class="quiz-option" data-correct="true">
-                                <span>Water</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="radio" name="q3" value="c" class="quiz-option">
-                                <span>Vitamins</span>
-                            </label>
+                        <div id="floating-food2" class="floating absolute top-40 left-40 w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center cursor-pointer" onclick="animateFood(2)">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a78f30e4-28c4-460d-bd27-c1ae4cab0df8.png" alt="Cartoon sandwich" class="w-12 h-12" />
+                        </div>
+                        <div id="floating-food3" class="floating absolute top-20 right-40 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center cursor-pointer" onclick="animateFood(3)">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/79137037-370e-4e79-ab0d-6a11ac9551f4.png" alt="Cartoon carrot stick" class="w-12 h-12" />
+                        </div>
+                        
+                        <!-- Path SVG -->
+                        <svg id="food-path" class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                            <path id="path" d="M100,100 C200,150 300,100 400,150 C500,200 600,150 700,200" stroke="transparent" stroke-width="2" fill="transparent" />
+                        </svg>
+                        
+                        <!-- Animated food element -->
+                        <div id="food-animator" class="hidden absolute w-12 h-12">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e84b0780-892d-4bc1-9365-04fb67d468fb.png" alt="Chewed food traveling down digestive system" class="w-full h-full" />
                         </div>
                     </div>
                 </div>
-                
-                <button onclick="checkQuiz()" class="mt-6 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-6 rounded-full transition-all shadow-lg w-full">
-                    Check My Answers!
-                </button>
-                
-                <div id="quizResult" class="mt-4 hidden p-4 rounded-lg"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white rounded-lg p-6 shadow-lg text-center">
+                    <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e1588ef5-cfe3-4a2a-9848-4decb79ba4f1.png" alt="Chewing animation" class="w-16 h-16" />
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-700">Step 1: Chewing</h3>
+                    <p>Your teeth break food into tiny pieces while saliva makes it soft and mushy.</p>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-lg text-center">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ef845418-8689-4937-8291-882f4676b711.png" alt="Saliva mixing animation" class="w-16 h-16" />
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-700">Step 2: Mixing</h3>
+                    <p>Your tongue mixes the food with saliva which has special juices to start digestion.</p>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-lg text-center">
+                    <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3d5e9fcf-20d7-4e7f-b276-1a7cb170027d.png" alt="Swallowing animation" class="w-16 h-16" />
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-700">Step 3: Swallowing</h3>
+                    <p>The mushy food (now called bolus) travels down to your stomach through the esophagus.</p>
+                </div>
+            </div>
+            
+            <div class="bg-indigo-50 rounded-lg p-8 max-w-4xl mx-auto border-2 border-indigo-100">
+                <h3 class="text-2xl font-bold text-indigo-800 mb-4">Fun Mouth Facts!</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="flex items-start">
+                        <div class="bg-indigo-100 rounded-full w-10 h-10 flex items-center justify-center mr-4 text-indigo-800 font-bold">1</div>
+                        <p>The average person produces about 1 liter of saliva each day!</p>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-indigo-100 rounded-full w-10 h-10 flex items-center justify-center mr-4 text-indigo-800 font-bold">2</div>
+                        <p>Your tongue has about 10,000 taste buds that help you enjoy different flavors.</p>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-indigo-100 rounded-full w-10 h-10 flex items-center justify-center mr-4 text-indigo-800 font-bold">3</div>
+                        <p>Teeth are the hardest part of your body - even harder than bones!</p>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-indigo-100 rounded-full w-10 h-10 flex items-center justify-center mr-4 text-indigo-800 font-bold">4</div>
+                        <p>Chewing starts breaking down carbohydrates (starches and sugars) right away.</p>
+                    </div>
+                </div>
             </div>
         </section>
-    </main>
-
-    <footer class="bg-blue-500 text-white py-6">
-        <div class="container mx-auto px-4 text-center">
-            <p class="mb-2">© 2023 The Amazing Digestive System Adventure</p>
-            <p>Created to help kids learn about their bodies!</p>
-        </div>
-    </footer>
+        
+        <footer class="mt-20 text-center text-gray-600">
+            <p>© 2025 The Body Explorers | Created to help kids learn about their amazing bodies!</p>
+        </footer>
+    </div>
 
     <script>
-        // Highlight active nav tab based on scroll position
-        window.addEventListener('scroll', function() {
-            const sections = document.querySelectorAll('.section-target');
-            let currentSection = '';
+        function showInfo(part) {
+            const infoBox = document.getElementById('info-display');
+            const title = document.getElementById('info-title');
+            const content = document.getElementById('info-content');
             
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (window.scrollY >= sectionTop - 150 && window.scrollY < sectionTop + sectionHeight - 150) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
+            infoBox.classList.remove('hidden');
             
-            const navLinks = document.querySelectorAll('#mainNav a');
-            navLinks.forEach(link => {
-                link.classList.remove('active', 'bg-blue-100');
-                if (link.getAttribute('href') === `#${currentSection}`) {
-                    link.classList.add('active', 'bg-blue-100');
-                }
-            });
-        });
-
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Start adventure animation
-        function startAdventure() {
-            alert("Let's follow a bite of food through the digestive system! Click on each part to learn more!");
-        }
-
-        // Play stomach sound effect
-        function playStomachSound() {
-            const sounds = ['gurgle', 'rumble', 'glug', 'splash'];
-            const sound = sounds[Math.floor(Math.random() * sounds.length)];
-            alert(`Your stomach goes: "${sound.toUpperCase()}!!"\n\nThat's the sound of your stomach mixing up food!`);
-        }
-
-        // Check quiz answers
-        function checkQuiz() {
-            const resultDiv = document.getElementById('quizResult');
-            let correct = 0;
-            const total = 3;
-            
-            // Check each question
-            document.querySelectorAll('.quiz-question').forEach(question => {
-                const selected = question.querySelector('input[type="radio"]:checked');
-                if (selected && selected.hasAttribute('data-correct')) {
-                    correct++;
-                }
-            });
-            
-            // Display result
-            if (correct === total) {
-                resultDiv.innerHTML = `
-                    <div class="bg-green-100 text-green-800 p-4 rounded-lg">
-                        <p class="font-bold text-lg">Wow! Perfect Score! 🎉</p>
-                        <p>You got all ${total} questions right! You're a digestive system expert!</p>
-                    </div>
-                `;
-            } else {
-                resultDiv.innerHTML = `
-                    <div class="bg-blue-100 text-blue-800 p-4 rounded-lg">
-                        <p class="font-bold text-lg">You got ${correct} out of ${total} right!</p>
-                        <p class="mt-2">Great try! Explore the pages above to learn more and try again!</p>
-                    </div>
-                `;
+            switch(part) {
+                case 'teeth':
+                    title.textContent = 'Your Super Strong Teeth!';
+                    content.textContent = 'You have different types of teeth that work together like a team. Front teeth (incisors) cut food, pointy teeth (canines) tear food, and back teeth (molars) grind food into tiny pieces. Each tooth is covered with enamel, the strongest material in your body!';
+                    break;
+                case 'tongue':
+                    title.textContent = 'The Amazing Tongue';
+                    content.textContent = 'Your tongue is like a super-sensitive food mover and taste detector! It has muscles that can move food around your mouth while you chew. The little bumps on your tongue contain taste buds that let you enjoy sweet, sour, salty, bitter, and umami flavors.';
+                    break;
+                case 'glands':
+                    title.textContent = 'Salivary Glands';
+                    content.textContent = 'You have six salivary glands that make spit (saliva) which helps soften food and begin digestion. Saliva contains special chemicals called enzymes that start breaking down starchy foods. It also helps wash away food particles that could cause cavities!';
+                    break;
             }
+        }
+        
+        function animateFood(num) {
+            const food = document.getElementById(`floating-food${num}`);
+            const animator = document.getElementById('food-animator');
             
-            resultDiv.classList.remove('hidden');
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
+            food.classList.add('hidden');
+            
+            // Position the animator where the food was
+            const foodRect = food.getBoundingClientRect();
+            const containerRect = document.getElementById('digestion-animation').getBoundingClientRect();
+            
+            animator.style.left = `${foodRect.left - containerRect.left}px`;
+            animator.style.top = `${foodRect.top - containerRect.top}px`;
+            
+            animator.classList.remove('hidden');
+            
+            // Simple animation - in a real implementation would follow SVG path
+            setTimeout(() => {
+                animator.style.left = '80%';
+                animator.style.top = '80%';
+                
+                setTimeout(() => {
+                    animator.classList.add('hidden');
+                    animator.style.transition = 'none';
+                    animator.style.left = '0';
+                    animator.style.top = '0';
+                    setTimeout(() => animator.style.transition = 'all 2s ease-in-out', 10);
+                    
+                    food.classList.remove('hidden');
+                }, 2000);
+            }, 50);
         }
     </script>
 </body>
