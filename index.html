@@ -3,269 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Amazing Mouth Adventure</title>
+    <title>The Mouth & Digestive System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(-45deg, #ffccf9, #bae8ff, #ffd8cb, #c1f7d5);
+            background-size: 300% 300%;
+            animation: gradient 15s ease infinite;
+            overflow-x: hidden;
         }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-        
-        .floating {
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        .bg-gradient {
-            background: linear-gradient(-45deg, #f8f4e5, #d4d7dd, #e8f4f8, #f0e6f6);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-        
-        @keyframes gradientBG {
+
+        @keyframes gradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        
-        .tooth-bounce:hover {
-            transform: translateY(-10px);
-            transition: transform 0.3s ease;
-        }
-        
-        .food-path {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: dash 5s linear forwards;
-        }
-        
-        .tongue-tooltip {
+
+        .bubble {
             position: absolute;
-            top: -30px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: float 6s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .bubble:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .mouth-animation {
+            width: 300px;
+            height: 180px;
+            position: relative;
+            margin: 0 auto;
+            background-color: #ffc2d1;
+            border-radius: 0 0 150px 150px;
+            border: 10px solid #ff758f;
+            overflow: hidden;
+            transition: all 0.5s;
+            cursor: pointer;
+        }
+
+        .mouth-animation:hover {
+            height: 200px;
+        }
+
+        .tongue {
+            position: absolute;
+            bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            background: #ff6b6b;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            animation: pulse 1.5s infinite;
-            white-space: nowrap;
+            width: 120px;
+            height: 60px;
+            background-color: #ff6b81;
+            border-radius: 60px 60px 0 0;
+            animation: tongue-move 4s infinite alternate;
         }
-        
-        @keyframes dash {
-            to {
-                stroke-dashoffset: 0;
+
+        .teeth {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .tooth {
+            width: 20px;
+            height: 30px;
+            background-color: #fff;
+            border-radius: 0 0 5px 5px;
+        }
+
+        @keyframes tongue-move {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        .food-item {
+            position: absolute;
+            font-size: 30px;
+            animation: chew 3s infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes chew {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(20px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+
+        .path {
+            position: relative;
+            height: 80px;
+            margin: 20px 0;
+            background: #f0f9ff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .food-moving {
+            position: absolute;
+            height: 40px;
+            width: 40px;
+            left: 0;
+            top: 20px;
+            animation: moveThrough 8s linear infinite;
+        }
+
+        @keyframes moveThrough {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(100vw - 100px)); }
+        }
+
+        .fact-card {
+            transform-style: preserve-3d;
+            transition: all 0.5s;
+        }
+
+        .fact-card:hover {
+            transform: rotateY(10deg) scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .mouth-animation {
+                width: 200px;
+                height: 120px;
+            }
+            .tongue {
+                width: 80px;
+                height: 40px;
+            }
+            .tooth {
+                width: 15px;
+                height: 20px;
             }
         }
     </style>
 </head>
-<body class="bg-gradient min-h-screen font-sans text-gray-800">
-    <div class="absolute inset-0 overflow-hidden">
-        <div class="floating absolute top-20 left-10 w-20 h-20 rounded-full bg-yellow-100 opacity-20"></div>
-        <div class="floating absolute top-1/4 right-20 w-24 h-24 rounded-full bg-blue-100 opacity-20"></div>
-        <div class="floating absolute bottom-1/3 left-1/4 w-16 h-16 rounded-full bg-pink-100 opacity-20"></div>
-        <div class="floating absolute bottom-20 right-1/4 w-20 h-20 rounded-full bg-purple-100 opacity-20"></div>
-        <div class="floating absolute top-1/2 left-1/2 w-12 h-12 rounded-full bg-green-100 opacity-20"></div>
-    </div>
-
-    <div class="container mx-auto px-4 py-12 relative z-10">
-        <header class="text-center mb-12">
-            <h1 class="text-5xl font-bold text-indigo-800 mb-4">The Mouth: Your Body's Food Processor</h1>
-            <p class="text-xl text-gray-600">Let's explore how your amazing mouth starts the journey of digestion!</p>
+<body class="min-h-screen pb-16">
+    <div class="container mx-auto px-4">
+        <header class="text-center py-8">
+            <h1 class="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4">
+                Our Amazing Mouth!
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-700">
+                How our mouth helps digest food
+            </p>
         </header>
 
-        <section class="mb-20">
-            <div class="flex flex-col lg:flex-row items-center justify-center gap-12 mb-12">
-                <div class="lg:w-1/2">
-                    <h2 class="text-3xl font-semibold text-indigo-700 mb-6 pulse">Mouth Anatomy</h2>
-                    <ul class="space-y-4 text-lg">
-                        <li class="flex items-start">
-                            <div class="bg-yellow-200 rounded-full w-8 h-8 flex items-center justify-center mr-4">1</div>
-                            <p><strong>Teeth</strong> - Like little knives and crushers that cut and grind food</p>
-                        </li>
-                        <li class="flex items-start">
-                            <div class="bg-yellow-200 rounded-full w-8 h-8 flex items-center justify-center mr-4">2</div>
-                            <p><strong>Tongue</strong> - The taste tester and food mover</p>
-                        </li>
-                        <li class="flex items-start">
-                            <div class="bg-yellow-200 rounded-full w-8 h-8 flex items-center justify-center mr-4">3</div>
-                            <p><strong>Salivary Glands</strong> - Make spit to soften food</p>
-                        </li>
-                        <li class="flex items-start">
-                            <div class="bg-yellow-200 rounded-full w-8 h-8 flex items-center justify-center mr-4">4</div>
-                            <p><strong>Lips & Cheeks</strong> - Help keep food inside while chewing</p>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="lg:w-1/2 relative flex justify-center">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a9b08a0a-c274-44a9-a7bd-17d4d55e003c.png" alt="Cartoon illustration of a cross-section of a child's mouth showing teeth, tongue, and salivary glands" class="rounded-lg shadow-xl border-8 border-white max-w-full" />
-                    <div id="mouth-hotspots" class="absolute inset-0">
-                        <div class="tooth-bounce absolute top-10 left-1/4 w-12 h-12 bg-white rounded-sm cursor-pointer" onclick="showInfo('teeth')"></div>
-                        <div class="absolute top-1/2 left-1/2 w-16 h-8 bg-pink-200 rounded-full cursor-pointer" onclick="showInfo('tongue')">
-                            <span class="tongue-tooltip">Click Me!</span>
-                        </div>
-                        <div class="absolute bottom-10 left-10 w-6 h-6 bg-blue-100 rounded-full cursor-pointer" onclick="showInfo('glands')"></div>
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="flex flex-col items-center">
+                <div class="mb-6 mouth-animation" id="animatedMouth">
+                    <div class="tongue"></div>
+                    <div class="teeth">
+                        <div class="tooth"></div>
+                        <div class="tooth"></div>
+                        <div class="tooth"></div>
+                        <div class="tooth"></div>
+                        <div class="tooth"></div>
+                        <div class="tooth"></div>
                     </div>
+                    <div class="food-item" style="top:50px; left:50px;">🍎</div>
+                    <div class="food-item" style="top:30px; right:60px;">🍪</div>
                 </div>
+                <button onclick="chewFood()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition hover:scale-110">
+                    Try Chewing!
+                </button>
+            </div>
+
+            <div class="fact-card bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-pink-600 mb-4">Mouth Facts</h2>
+                <ul class="space-y-3 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-2">🦷</span>
+                        <span>The mouth is where digestion begins!</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2">👅</span>
+                        <span>Your tongue has about 10,000 taste buds!</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2">💦</span>
+                        <span>Saliva helps break down food and makes it easier to swallow.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2">🪥</span>
+                        <span>Teeth chop and grind food into smaller pieces.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="bg-white p-8 rounded-xl shadow-lg mb-12">
+            <h2 class="text-3xl font-bold text-center text-purple-600 mb-6">The Digestive Journey</h2>
+            <img src="https://placehold.co/1200x400" alt="Colorful diagram showing the digestive tract from mouth to stomach, with arrows indicating food movement" class="mb-8 rounded-lg w-full" />
+            
+            <div class="path">
+                <div class="food-moving">🍕</div>
             </div>
             
-            <div id="info-display" class="hidden bg-white rounded-lg p-6 shadow-lg max-w-3xl mx-auto mb-12">
-                <h3 id="info-title" class="text-2xl font-bold text-indigo-800 mb-4"></h3>
-                <p id="info-content" class="text-lg"></p>
+            <div class="grid md:grid-cols-3 gap-6 mt-8">
+                <div class="step-card bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
+                    <h3 class="text-xl font-bold text-blue-700 mb-2">1. Chewing</h3>
+                    <p>Teeth break food into small pieces while saliva makes it soft and moist.</p>
+                </div>
+                <div class="step-card bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+                    <h3 class="text-xl font-bold text-green-700 mb-2">2. Swallowing</h3>
+                    <p>The tongue pushes food to the back of the mouth so it can go down the esophagus.</p>
+                </div>
+                <div class="step-card bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-500">
+                    <h3 class="text-xl font-bold text-yellow-700 mb-2">3. Stomach</h3>
+                    <p>Food mixes with stomach acids to become even smaller before going to the intestines.</p>
+                </div>
             </div>
         </section>
 
-        <section>
-            <h2 class="text-3xl font-semibold text-center text-indigo-700 mb-12">How Digestion Starts in Your Mouth</h2>
-            
-            <div class="relative flex justify-center mb-20">
-                <div class="relative w-full max-w-4xl">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/675468e0-f898-4e4c-bc2d-3c8e6964b282.png" alt="Cartoon digestive system illustration focusing on mouth to stomach" class="w-full rounded-lg shadow-lg" />
-                    
-                    <div id="digestion-animation" class="absolute inset-0">
-                        <!-- Floating food elements -->
-                        <div id="floating-food1" class="floating absolute top-10 left-20 w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center cursor-pointer" onclick="animateFood(1)">
-                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/496f0c53-0ba4-48e5-b670-1f7ef26b7afb.png" alt="Cartoon apple slice" class="w-12 h-12" />
-                        </div>
-                        <div id="floating-food2" class="floating absolute top-40 left-40 w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center cursor-pointer" onclick="animateFood(2)">
-                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a78f30e4-28c4-460d-bd27-c1ae4cab0df8.png" alt="Cartoon sandwich" class="w-12 h-12" />
-                        </div>
-                        <div id="floating-food3" class="floating absolute top-20 right-40 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center cursor-pointer" onclick="animateFood(3)">
-                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/79137037-370e-4e79-ab0d-6a11ac9551f4.png" alt="Cartoon carrot stick" class="w-12 h-12" />
-                        </div>
-                        
-                        <!-- Path SVG -->
-                        <svg id="food-path" class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                            <path id="path" d="M100,100 C200,150 300,100 400,150 C500,200 600,150 700,200" stroke="transparent" stroke-width="2" fill="transparent" />
-                        </svg>
-                        
-                        <!-- Animated food element -->
-                        <div id="food-animator" class="hidden absolute w-12 h-12">
-                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e84b0780-892d-4bc1-9365-04fb67d468fb.png" alt="Chewed food traveling down digestive system" class="w-full h-full" />
-                        </div>
-                    </div>
+        <div class="quiz-container bg-gradient-to-r from-purple-100 to-pink-100 p-8 rounded-xl shadow-lg">
+            <h2 class="text-3xl font-bold text-center text-pink-600 mb-6">Fun Mouth Quiz!</h2>
+            <div class="quiz-question bg-white p-6 rounded-lg mb-4">
+                <p class="text-xl font-semibold mb-4">What does saliva help with?</p>
+                <div class="space-y-3">
+                    <button onclick="checkAnswer(this, true)" class="quiz-option w-full text-left bg-gray-100 hover:bg-blue-100 p-3 rounded-lg">Breaking down food</button>
+                    <button onclick="checkAnswer(this, false)" class="quiz-option w-full text-left bg-gray-100 hover:bg-blue-100 p-3 rounded-lg">Making food taste bad</button>
+                    <button onclick="checkAnswer(this, false)" class="quiz-option w-full text-left bg-gray-100 hover:bg-blue-100 p-3 rounded-lg">Turning food into liquid</button>
                 </div>
             </div>
-            
-            <div class="grid md:grid-cols-3 gap-8 mb-12">
-                <div class="bg-white rounded-lg p-6 shadow-lg text-center">
-                    <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
-                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e1588ef5-cfe3-4a2a-9848-4decb79ba4f1.png" alt="Chewing animation" class="w-16 h-16" />
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3 text-indigo-700">Step 1: Chewing</h3>
-                    <p>Your teeth break food into tiny pieces while saliva makes it soft and mushy.</p>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-lg text-center">
-                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4 mx-auto">
-                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ef845418-8689-4937-8291-882f4676b711.png" alt="Saliva mixing animation" class="w-16 h-16" />
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3 text-indigo-700">Step 2: Mixing</h3>
-                    <p>Your tongue mixes the food with saliva which has special juices to start digestion.</p>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-lg text-center">
-                    <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mb-4 mx-auto">
-                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3d5e9fcf-20d7-4e7f-b276-1a7cb170027d.png" alt="Swallowing animation" class="w-16 h-16" />
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3 text-indigo-700">Step 3: Swallowing</h3>
-                    <p>The mushy food (now called bolus) travels down to your stomach through the esophagus.</p>
-                </div>
-            </div>
-            
-            <div class="bg-indigo-50 rounded-lg p-8 max-w-4xl mx-auto border-2 border-indigo-100">
-                <h3 class="text-2xl font-bold text-indigo-800 mb-4">Fun Mouth Facts!</h3>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="flex items-start">
-                        <div class="bg-indigo-100 rounded-full w-10 h-10 flex items-center justify-center mr-4 text-indigo-800 font-bold">1</div>
-                        <p>The average person produces about 1 liter of saliva each day!</p>
-                    </div>
-                    <div class="flex items-start">
-                        <div class="bg-indigo-100 rounded-full w-10 h-10 flex items-center justify-center mr-4 text-indigo-800 font-bold">2</div>
-                        <p>Your tongue has about 10,000 taste buds that help you enjoy different flavors.</p>
-                    </div>
-                    <div class="flex items-start">
-                        <div class="bg-indigo-100 rounded-full w-10 h-10 flex items-center justify-center mr-4 text-indigo-800 font-bold">3</div>
-                        <p>Teeth are the hardest part of your body - even harder than bones!</p>
-                    </div>
-                    <div class="flex items-start">
-                        <div class="bg-indigo-100 rounded-full w-10 h-10 flex items-center justify-center mr-4 text-indigo-800 font-bold">4</div>
-                        <p>Chewing starts breaking down carbohydrates (starches and sugars) right away.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <footer class="mt-20 text-center text-gray-600">
-            <p>© 2025 The Body Explorers | Created to help kids learn about their amazing bodies!</p>
-        </footer>
+            <div id="quizFeedback" class="hidden text-center text-lg font-bold"></div>
+        </div>
+    </div>
+
+    <!-- Floating bubbles -->
+    <div class="bubble" style="width: 80px; height: 80px; top: 15%; left: 5%;">
+        🦷
+    </div>
+    <div class="bubble" style="width: 70px; height: 70px; top: 25%; right: 8%;">
+        👅
+    </div>
+    <div class="bubble" style="width: 90px; height: 90px; bottom: 20%; left: 10%;">
+        💦
+    </div>
+    <div class="bubble" style="width: 60px; height: 60px; bottom: 30%; right: 15%;">
+        🍎
     </div>
 
     <script>
-        function showInfo(part) {
-            const infoBox = document.getElementById('info-display');
-            const title = document.getElementById('info-title');
-            const content = document.getElementById('info-content');
+        // Animate mouth on button click
+        function chewFood() {
+            const mouth = document.getElementById('animatedMouth');
+            mouth.style.height = '140px';
             
-            infoBox.classList.remove('hidden');
+            // Add chewing animation to food items
+            const foods = document.querySelectorAll('.food-item');
+            foods.forEach(food => {
+                food.style.animation = 'chew 0.5s infinite';
+            });
             
-            switch(part) {
-                case 'teeth':
-                    title.textContent = 'Your Super Strong Teeth!';
-                    content.textContent = 'You have different types of teeth that work together like a team. Front teeth (incisors) cut food, pointy teeth (canines) tear food, and back teeth (molars) grind food into tiny pieces. Each tooth is covered with enamel, the strongest material in your body!';
-                    break;
-                case 'tongue':
-                    title.textContent = 'The Amazing Tongue';
-                    content.textContent = 'Your tongue is like a super-sensitive food mover and taste detector! It has muscles that can move food around your mouth while you chew. The little bumps on your tongue contain taste buds that let you enjoy sweet, sour, salty, bitter, and umami flavors.';
-                    break;
-                case 'glands':
-                    title.textContent = 'Salivary Glands';
-                    content.textContent = 'You have six salivary glands that make spit (saliva) which helps soften food and begin digestion. Saliva contains special chemicals called enzymes that start breaking down starchy foods. It also helps wash away food particles that could cause cavities!';
-                    break;
-            }
-        }
-        
-        function animateFood(num) {
-            const food = document.getElementById(`floating-food${num}`);
-            const animator = document.getElementById('food-animator');
-            
-            food.classList.add('hidden');
-            
-            // Position the animator where the food was
-            const foodRect = food.getBoundingClientRect();
-            const containerRect = document.getElementById('digestion-animation').getBoundingClientRect();
-            
-            animator.style.left = `${foodRect.left - containerRect.left}px`;
-            animator.style.top = `${foodRect.top - containerRect.top}px`;
-            
-            animator.classList.remove('hidden');
-            
-            // Simple animation - in a real implementation would follow SVG path
             setTimeout(() => {
-                animator.style.left = '80%';
-                animator.style.top = '80%';
+                mouth.style.height = '180px';
+                foods.forEach(food => {
+                    food.style.animation = 'chew 3s infinite';
+                });
+            }, 1000);
+        }
+
+        // Quiz functionality
+        function checkAnswer(button, isCorrect) {
+            const feedback = document.getElementById('quizFeedback');
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:bg-blue-100');
+            });
+            
+            if(isCorrect) {
+                button.classList.add('bg-green-100');
+                feedback.textContent = 'Correct! Good job!';
+                feedback.classList.add('text-green-600');
+            } else {
+                button.classList.add('bg-red-100');
+                feedback.textContent = 'Almost! Try again!';
+                feedback.classList.add('text-red-600');
+            }
+            
+            feedback.classList.remove('hidden');
+        }
+
+        // Make bubbles move when clicked
+        const bubbles = document.querySelectorAll('.bubble');
+        bubbles.forEach(bubble => {
+            bubble.addEventListener('click', function() {
+                this.style.animation = 'none';
+                void this.offsetWidth; // Trigger reflow
+                
+                // Random floating animation
+                const duration = 3 + Math.random() * 3;
+                const delay = Math.random() * 2;
+                const distance = 10 + Math.random() * 20;
+                
+                this.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                this.style.transform = 'scale(1.05)';
                 
                 setTimeout(() => {
-                    animator.classList.add('hidden');
-                    animator.style.transition = 'none';
-                    animator.style.left = '0';
-                    animator.style.top = '0';
-                    setTimeout(() => animator.style.transition = 'all 2s ease-in-out', 10);
-                    
-                    food.classList.remove('hidden');
-                }, 2000);
-            }, 50);
-        }
+                    this.style.transform = '';
+                }, 500);
+            });
+        });
     </script>
 </body>
 </html>
-
