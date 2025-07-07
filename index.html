@@ -208,18 +208,6 @@
             </div>
         </div>
 
-        <div class="quiz-container bg-gradient-to-r from-purple-100 to-pink-100 p-8 rounded-xl shadow-lg">
-            <h2 class="text-3xl font-bold text-center text-pink-600 mb-6">Fun Mouth Quiz!</h2>
-            <div class="quiz-question bg-white p-6 rounded-lg mb-4">
-                <p class="text-xl font-semibold mb-4">What does saliva help with?</p>
-                <div class="space-y-3">
-                    <button onclick="checkAnswer(this, true)" class="quiz-option w-full text-left bg-gray-100 hover:bg-blue-100 p-3 rounded-lg">Breaking down food</button>
-                    <button onclick="checkAnswer(this, false)" class="quiz-option w-full text-left bg-gray-100 hover:bg-blue-100 p-3 rounded-lg">Making food taste bad</button>
-                    <button onclick="checkAnswer(this, false)" class="quiz-option w-full text-left bg-gray-100 hover:bg-blue-100 p-3 rounded-lg">Turning food into liquid</button>
-                </div>
-            </div>
-            <div id="quizFeedback" class="hidden text-center text-lg font-bold"></div>
-        </div>
     </div>
 
     <!-- Floating bubbles -->
@@ -256,7 +244,7 @@
             }, 1000);
         }
 
-        // Quiz functionality
+        // Quiz functionality (no longer used after quiz removal)
         function checkAnswer(button, isCorrect) {
             const feedback = document.getElementById('quizFeedback');
             const options = document.querySelectorAll('.quiz-option');
